@@ -54,7 +54,7 @@
   ***the column "SFA" is auto-classified as "STRING" because there are certain values with commas. We need to covert them into numeric values in order to perform calculation. Usuing "WITH" to create a correctly formatted table for "SFA".
     
     WITH new_data AS (
-                      SELECT SAFE_CAST(REPLACE(SFA,",","") AS INT64)nAS new_SFA
+                      SELECT SAFE_CAST(REPLACE(SFA,",","") AS INT64) AS new_SFA
                       FROM table)
 
  -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
