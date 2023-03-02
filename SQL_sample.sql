@@ -51,7 +51,7 @@
 
 
 ## Sample of using "SAFE_CAST" and "CASE" to clean and categorize data
-  ***the column "SFA" is auto-classified as "STRING" because there are certain values with commas. We need to covert them into numeric values in order to perform calculation. Usuing "WITH" to create a correctly formatted table for "SFA".
+  # the column "SFA" is auto-classified as "STRING" because there are certain values with commas. We need to covert them into numeric values in order to perform calculation. Usuing "WITH" to create a correctly formatted table for "SFA".
     
     WITH new_data AS (
                       SELECT SAFE_CAST(REPLACE(SFA,",","") AS INT64) AS new_SFA
@@ -59,7 +59,7 @@
 
  -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
  
-  ***Inside "FROM" statement, we use "CASE" to categorize the SFA size into groups of ranges and deemed it as a temporary table. Then, we select from this table and perform the calculation.
+  # Inside "FROM" statement, we use "CASE" to categorize the SFA size into groups of ranges and deemed it as a temporary table. Then, we select from this table and perform the calculation.
     
     SELECT SFA_Range, COUNT(*) AS total_transactions
     FROM (
