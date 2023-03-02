@@ -1,17 +1,18 @@
 from bs4 import BeautifulSoup
 import pandas as pd
+from pandas import ExcelWriter
 from selenium.webdriver.common.by import By
 from selenium import webdriver
-import time
-from pandas import ExcelWriter
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
+import time
 
+# Define variables and get the page content using "Selenium".
 i = 1
 w = ExcelWriter('Excel.xlsx', engine='xlsxwriter')
 browser = webdriver.Chrome() # open a browser
 browser.maximize_window()
-browser.get("https://www.midland.com.hk/en/list/transaction/Search-H-b8c54699")
+browser.get("html_link")
 time.sleep(5)
 
 # Load all the page content
@@ -21,12 +22,14 @@ for a in range(7):
     time.sleep(0.5)
 time.sleep(3)
 
-while i < 27:
+# i = how many page we want to scrape
+while i <= 27:
 
-    # Read the page content
+# Read the page content
     html = browser.page_source
     soup = BeautifulSoup(html, 'html.parser')
 
+# Create dataframe
     data = {
         'date':[],
         'premises':[],
