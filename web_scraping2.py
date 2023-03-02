@@ -1,3 +1,4 @@
+# Import library
 from bs4 import BeautifulSoup
 import pandas as pd
 from pandas import ExcelWriter
@@ -7,7 +8,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
 import time
 
-# Define variables and get the page content using "Selenium".
+# Define variables and get the website content using "Selenium"
 i = 1
 w = ExcelWriter('Excel.xlsx', engine='xlsxwriter')
 browser = webdriver.Chrome() # open a browser
@@ -15,7 +16,7 @@ browser.maximize_window()
 browser.get("html_link")
 time.sleep(5)
 
-# Load all the page content
+# Load all the available data on the page by pressing spacebar
 actions1 = ActionChains(browser)
 for a in range(7):
     actions1.send_keys(Keys.SPACE).perform()
@@ -24,10 +25,6 @@ time.sleep(3)
 
 # i = how many page we want to scrape
 while i <= 27:
-
-# Read the page content
-    html = browser.page_source
-    soup = BeautifulSoup(html, 'html.parser')
 
 # Create dataframe
     data = {
@@ -40,6 +37,11 @@ while i <= 27:
         'GFA':[]
     }
 
+# Read the page content using "Beautifulsoup"
+    html = browser.page_source
+    soup = BeautifulSoup(html, 'html.parser')
+
+# Get the data we want and assign it into specified column under the dataframe // Input "N/A" if value is not found
     for datetag in soup.select("div.sc-2vbwj7-23"):
         date = datetag.find('div','sc-2vbwj7-5')
         data['date'].append(date.get_text().strip() if date else 'N/A')
@@ -67,19 +69,23 @@ while i <= 27:
     for tag2 in soup.select(".sc-2vbwj7-23 .sc-1d6dn8u-4"):
         SFA = tag2.find('div','sc-1d6dn8u-1 buFexZ').find(text=True, recursive=False) 
         data['SFA'].append(SFA.get_text().strip() if SFA else 'N/A')
-    
+
+# Assign the dataframe into table using "Panda" // Write the table into an auto-created Excel file. As there are 23 data on each page, the startrow formular is to write content to the next row after each of the appended 23 data.
     rental = pd.DataFrame(data)  
     rental.to_excel(w, startrow=23*(i-1)+1,index=False, header=False)
     i = i + 1 
-
+    
+# Find the "Next Page" button on the page and click // Sleep 3 seconds for page loading
     browser.execute_script("document.querySelector(\"#__next > main > div.sc-1jigt1a-1.dlspjX > div > div.rmc-tabs-content-wrap > div.rmc-tabs-pane-wrap.rmc-tabs-pane-wrap-active > div.jqe5tj-3.eqhNgY > div > div.sc-adjhgu-0.bcJKaH.sc-c8n77o-0.iIhHES > ul > li.next > a\").click()")
 
-    time.sleep(3) # sleep three seconds so page can load
+    time.sleep(3)
 
+# Load all the available data on the page by pressing spacebar // Sleep for 3 seconds for page loading  
     actions1 = ActionChains(browser)
     for a in range(7):
         actions1.send_keys(Keys.SPACE).perform()
         time.sleep(0.5)
     time.sleep(3)
 
-w.save()  
+# Save the file
+w.save()
