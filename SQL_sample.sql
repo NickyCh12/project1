@@ -50,7 +50,7 @@
   ORDER BY Date DESC
 
 
-## Sample of using "SAFE_CAST" and "WHEN" to clean and categorize data
+## Sample of using "SAFE_CAST" and "CASE" to clean and categorize data
   ***the column "SFA" is auto-classified as "STRING" because there are certain values with commas. We need to covert them into numeric values in order to perform calculation. Usuing "WITH" to create a correctly formatted table for "SFA".
     
     WITH new_data AS (
