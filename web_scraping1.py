@@ -1,16 +1,16 @@
 # Import library
 from bs4 import BeautifulSoup
 import pandas as pd
+from pandas import ExcelWriter
 from selenium.webdriver.common.by import By
 from selenium import webdriver
 import time
-from pandas import ExcelWriter
 
 # Define variables and get the website content using selenium
 i = 1
 w = ExcelWriter('Excel.xlsx',mode='a',engine='openpyxl', if_sheet_exists='overlay')
 browser = webdriver.Chrome() # open a browser
-browser.get("https://hk.centanet.com/findproperty/en/list/transaction?q=dXQXD7v5cUKT5fwQwIYIlw")
+browser.get("html_link")
 
 # Click the specific icon to nevagate to the page we want. Sleep for 5 seconds for loading
 element1 = browser.find_element(By.CLASS_NAME,'right-icon')
@@ -34,7 +34,7 @@ while i <= 3:
     html = browser.page_source
     soup = BeautifulSoup(html, 'html.parser')
 
-# Get the data we want and assign it into specified column under the data frame. Input "N/A" if value is not found
+# Get the data we want and assign it into specified column under the dataframe. Input "N/A" if value is not found
     for datetag in soup.select(".deal-property.list .area-block.hidden-sm-and-down"):
         date = datetag.find('div','data-info')
         data['date'].append(date.get_text().strip() if date else 'N/A')
