@@ -1,2 +1,2 @@
 # project1
-Case study project for Google Data Analytics Certificate
+Google Data Analytics Professional Certificate
